@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,6 +80,36 @@ namespace WpfApplication1
 
         private void LoadKonfigurations()
         {
+
+            // TODO aus Datei laden
+            profiles = new SortedDictionary<string, KonfigurationParameter>();
+            string winPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\profiles.xml";
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.Load(winPath);
+                string profilename = "";
+
+                foreach (XmlNode profileNode in doc.SelectNodes("/profiles/profile"))
+                {
+                    foreach (XmlNode subNode in profileNode.ChildNodes)
+                    {
+                        switch (subNode.Name)
+                        {
+                            case "#text":
+                                profilename = subNode.InnerText;
+                                break;
+                        }
+                    }
+                    profiles.Add(profilename, new KonfigurationParameter(profileNode));
+                }
+
+            }
+            catch (FileNotFoundException e)
+            {
+                Debug.WriteLine("FileNotFoundException: {0}", e.Message);
+            }
+
             /*
             profiles = new SortedDictionary<string, KonfigurationParameter>();
             profiles.Add("Invoice", new KonfigurationParameter("ARCPATH[1]:/Administration/Business Solutions", "http://srvpdevbs01vm:8010/ix-invoice/ix", "Ruberg", "elo"));
@@ -86,26 +118,6 @@ namespace WpfApplication1
             profiles.Add("Beispielarchiv", new KonfigurationParameter("ARCPATH[1]:/Administration/Business Solutions", "http://PCRUBERG:9090/ix-elo/ix", "Administrator", "elo"));
             */
 
-            // TODO aus Datei laden
-            profiles = new SortedDictionary<string, KonfigurationParameter>();
-            string winPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\profiles.xml";
-            XmlDocument doc = new XmlDocument();
-            doc.Load(winPath);
-            string profilename = "";
-
-            foreach (XmlNode profileNode in doc.SelectNodes("/profiles/profile"))
-            {
-                foreach (XmlNode subNode in profileNode.ChildNodes)
-                {
-                    switch (subNode.Name)
-                    {
-                        case "#text":
-                            profilename = subNode.InnerText;
-                            break;
-                    }
-                }
-                profiles.Add(profilename, new KonfigurationParameter(profileNode));
-            }
             // TODO
 
             InitKonfigurations();
