@@ -148,12 +148,12 @@ namespace WpfApplication1
             txtUser.Text = profile.user;
             txtArcPath.Text = profile.arcPath;
             txtIxUrl.Text = profile.ixUrl;
-            txtPwd.Text = profile.pwd;
+            txtPwd.Password = profile.pwd;
         }
 
         private KonfigurationParameter GetValues()
         {
-            KonfigurationParameter profile = new KonfigurationParameter(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Text);
+            KonfigurationParameter profile = new KonfigurationParameter(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Password);
             return profile;
         }
 
