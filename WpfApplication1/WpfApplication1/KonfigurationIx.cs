@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace WpfApplication1
 {
-    class KonfigurationIx
+    public class KonfigurationIx
     {
         private string _arcPath;
         private string _ixUrl;
@@ -76,14 +76,14 @@ namespace WpfApplication1
             this._pwd = "";
         }
 
-        public KonfigurationIx(XmlNode profileNode)
+        public KonfigurationIx(XmlNode ixConfNode)
         {
             this._arcPath = "";
             this._ixUrl = "";
             this._user = "";
             this._pwd = "";
 
-            foreach (XmlNode subNode in profileNode.ChildNodes)
+            foreach (XmlNode subNode in ixConfNode.ChildNodes)
             {
                 switch (subNode.Name)
                 {
@@ -117,21 +117,21 @@ namespace WpfApplication1
 
         public XmlElement CreateXMLNode(XmlDocument xmlDoc) 
         {
-            XmlElement ixconfElem = CreateXMLNodeValue(xmlDoc, "ixconf", "");
+            XmlElement ixConfElem = CreateXMLNodeValue(xmlDoc, "ixConf", "");
 
             XmlElement nodeElem = CreateXMLNodeValue(xmlDoc, "arcPath", arcPath);
-            ixconfElem.AppendChild(nodeElem);
+            ixConfElem.AppendChild(nodeElem);
 
             nodeElem = CreateXMLNodeValue(xmlDoc, "ixUrl", ixUrl);
-            ixconfElem.AppendChild(nodeElem);
+            ixConfElem.AppendChild(nodeElem);
 
             nodeElem = CreateXMLNodeValue(xmlDoc, "user", user);
-            ixconfElem.AppendChild(nodeElem);
+            ixConfElem.AppendChild(nodeElem);
 
             nodeElem = CreateXMLNodeValue(xmlDoc, "pwd", pwd);
-            ixconfElem.AppendChild(nodeElem);
+            ixConfElem.AppendChild(nodeElem);
 
-            return ixconfElem;
+            return ixConfElem;
 
         }
 

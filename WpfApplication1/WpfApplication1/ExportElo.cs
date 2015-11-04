@@ -145,15 +145,15 @@ namespace WpfApplication1
         {
             try
             {
-                IXConnFactory connFact = new IXConnFactory(profile.ixUrl, "StartExportElo", "1.0");
-                IXConnection conn = connFact.Create(profile.user, profile.pwd, null, null);
+                IXConnFactory connFact = new IXConnFactory(profile.ixConf.ixUrl, "StartExportElo", "1.0");
+                IXConnection conn = connFact.Create(profile.ixConf.user, profile.ixConf.pwd, null, null);
                 string winPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ExportElo\\" + profilename;
                 if (!Directory.Exists(winPath)) 
                 {
                     Directory.CreateDirectory(winPath);
                 }                
 
-                FindChildren(conn, profile.arcPath, winPath, exportReferences);
+                FindChildren(conn, profile.ixConf.arcPath, winPath, exportReferences);
 
                 Debug.WriteLine("ticket=" + conn.LoginResult.clientInfo.ticket);
                 conn.Logout();

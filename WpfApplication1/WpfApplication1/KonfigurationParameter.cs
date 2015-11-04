@@ -9,104 +9,44 @@ namespace WpfApplication1
 {
     public class KonfigurationParameter
     {
-        private string _arcPath;
-        private string _ixUrl;
-        private string _user;
-        private string _pwd;
+        private KonfigurationIx _ixConf;
 
-        public string arcPath
+        public KonfigurationIx ixConf
         {
             get
             {
-                return _arcPath;
+                return _ixConf;
             }
             set
             {
-                _arcPath = value;
+                _ixConf = value;
             }
         }
 
-        public string ixUrl
+        public KonfigurationParameter(KonfigurationIx ixConf)
         {
-            get
-            {
-                return _ixUrl;
-            }
-            set
-            {
-                _ixUrl = value;
-            }
-        }
-        public string user
-        {
-            get
-            {
-                return _user;
-            }
-            set
-            {
-                _user = value;
-            }
-        }
-        public string pwd
-        {
-            get
-            {
-                return _pwd;
-            }
-            set
-            {
-                _pwd = value;
-            }
-        }
-
-        public KonfigurationParameter(string arcPath, string ixUrl, string user, string pwd)
-        {
-            this._arcPath = arcPath;
-            this._ixUrl = ixUrl;
-            this._user = user;
-            this._pwd = pwd;
+            this._ixConf = ixConf;
         }
 
         public KonfigurationParameter()
         {
-            this._arcPath = "";
-            this._ixUrl = "";
-            this._user = "";
-            this._pwd = "";
+            this._ixConf = new KonfigurationIx();
         }
 
         public KonfigurationParameter(XmlNode profileNode)
         {
-            this._arcPath = "";
-            this._ixUrl = "";
-            this._user = "";
-            this._pwd = "";
+            this._ixConf = new KonfigurationIx();
 
             foreach (XmlNode subNode in profileNode.ChildNodes)
             {
                 switch (subNode.Name)
                 {
-                    case "arcPath":
-                        _arcPath = subNode.InnerText;
-                        break;
-
-                    case "user":
-                        _user = subNode.InnerText;
-                        break;
-
-                    case "ixUrl":
-                        _ixUrl = subNode.InnerText;
-                        break;
-
-                    case "pwd":
-                        _pwd = subNode.InnerText;
+                    case "ixConf":
+                        _ixConf = new KonfigurationIx(subNode);
                         break;
                 }
             }
         }
-
-
 
         private XmlElement CreateXMLNodeValue(XmlDocument xmlDoc, string nodeName, string nodeValue)
         {
@@ -115,20 +55,12 @@ namespace WpfApplication1
             return node;
         }
 
+
         public XmlElement CreateXMLNode(XmlDocument xmlDoc, string profilename) 
         {
             XmlElement profileElem = CreateXMLNodeValue(xmlDoc, "profile", profilename);
 
-            XmlElement nodeElem = CreateXMLNodeValue(xmlDoc, "arcPath", arcPath);
-            profileElem.AppendChild(nodeElem);
-
-            nodeElem = CreateXMLNodeValue(xmlDoc, "ixUrl", ixUrl);
-            profileElem.AppendChild(nodeElem);
-
-            nodeElem = CreateXMLNodeValue(xmlDoc, "user", user);
-            profileElem.AppendChild(nodeElem);
-
-            nodeElem = CreateXMLNodeValue(xmlDoc, "pwd", pwd);
+            XmlElement nodeElem = ixConf.CreateXMLNode(xmlDoc);
             profileElem.AppendChild(nodeElem);
 
             return profileElem;

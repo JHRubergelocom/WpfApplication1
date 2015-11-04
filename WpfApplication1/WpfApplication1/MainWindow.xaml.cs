@@ -59,8 +59,7 @@ namespace WpfApplication1
             if (dialog.ShowDialog() == true)
             {
                 // MessageBox.Show("You select Profilename: " + dialog.txtProfileName);
-
-                KonfigurationParameter newprofile = new KonfigurationParameter("arcPath", "ixUrl", "user", "pwd");
+                KonfigurationParameter newprofile = new KonfigurationParameter(new KonfigurationIx("arcPath", "ixUrl", "user", "pwd"));
                 string newprofilename = dialog.txtProfileName.Text;
                 if (!profiles.ContainsKey(newprofilename))
                 {
@@ -81,7 +80,7 @@ namespace WpfApplication1
         private void LoadKonfigurations()
         {
 
-            // TODO aus Datei laden
+            // aus XML-Datei laden
             profiles = new SortedDictionary<string, KonfigurationParameter>();
             string winPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\profiles.xml";
             try
@@ -109,15 +108,19 @@ namespace WpfApplication1
             {
                 Debug.WriteLine("FileNotFoundException: {0}", e.Message);
             }
-
+            catch (Exception e)
+            {
+                Debug.WriteLine("Exception: {0}", e.Message);
+            }
             /*
-            profiles = new SortedDictionary<string, KonfigurationParameter>();
-            profiles.Add("Invoice", new KonfigurationParameter("ARCPATH[1]:/Administration/Business Solutions", "http://srvpdevbs01vm:8010/ix-invoice/ix", "Ruberg", "elo"));
-            profiles.Add("Pubsec", new KonfigurationParameter("ARCPATH[1]:/Administration/Business Solutions", "http://srvpdevbs01vm:8020/ix-pubsec/ix", "Ruberg", "elo"));
-            profiles.Add("Akadamie", new KonfigurationParameter("ARCPATH[1]:/Administration/Business Solutions", "http://PCRUBERG:9090/ix-Akadamie2/ix", "Administrator", "elo"));
-            profiles.Add("Beispielarchiv", new KonfigurationParameter("ARCPATH[1]:/Administration/Business Solutions", "http://PCRUBERG:9090/ix-elo/ix", "Administrator", "elo"));
-            */
-
+            if (profiles.Count == 0)
+            {
+                profiles.Add("Invoice",new KonfigurationParameter(new KonfigurationIx("ARCPATH[1]:/Administration/Business Solutions", "http://srvpdevbs01vm:8010/ix-invoice/ix", "Ruberg", "elo")));
+                profiles.Add("Pubsec", new KonfigurationParameter(new KonfigurationIx("ARCPATH[1]:/Administration/Business Solutions", "http://srvpdevbs01vm:8020/ix-pubsec/ix", "Ruberg", "elo")));
+                profiles.Add("Akadamie", new KonfigurationParameter(new KonfigurationIx("ARCPATH[1]:/Administration/Business Solutions", "http://PCRUBERG:9090/ix-Akadamie2/ix", "Administrator", "elo")));
+                profiles.Add("Beispielarchiv", new KonfigurationParameter(new KonfigurationIx("ARCPATH[1]:/Administration/Business Solutions", "http://PCRUBERG:9090/ix-elo/ix", "Administrator", "elo")));
+            }
+             */ 
             // TODO
 
             InitKonfigurations();
@@ -139,21 +142,30 @@ namespace WpfApplication1
             }
 
             string winPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\profiles.xml";
-            XmlWriter writer = XmlWriter.Create(winPath);
-            doc.Save(writer);
+            try
+            {
+                XmlWriter writer = XmlWriter.Create(winPath);
+                doc.Save(writer);
+                writer.Flush();
+                writer.Close();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Exception: {0}", e.Message);
+            }
         }
 
         private void SetValues(KonfigurationParameter profile)
         {
-            txtUser.Text = profile.user;
-            txtArcPath.Text = profile.arcPath;
-            txtIxUrl.Text = profile.ixUrl;
-            txtPwd.Password = profile.pwd;
+            txtUser.Text = profile.ixConf.user;
+            txtArcPath.Text = profile.ixConf.arcPath;
+            txtIxUrl.Text = profile.ixConf.ixUrl;
+            txtPwd.Password = profile.ixConf.pwd;
         }
 
         private KonfigurationParameter GetValues()
-        {
-            KonfigurationParameter profile = new KonfigurationParameter(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Password);
+        {   
+            KonfigurationParameter profile = new KonfigurationParameter(new KonfigurationIx(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Password));
             return profile;
         }
 
