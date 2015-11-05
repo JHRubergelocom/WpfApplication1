@@ -12,7 +12,7 @@ namespace ExportSol
 {
     class Program {
 
-        private static void FindChildren(IXConnection conn, string arcPath, string winPath)
+        private static void FindChildren(IXConnection conn, string arcPath, string winPath, bool exportReferences)
         {
 
             FindInfo fi = null;
@@ -39,33 +39,71 @@ namespace ExportSol
                     {
                         bool isFolder = sord.type < SordC.LBT_DOCUMENT;
                         bool isDocument = sord.type >= SordC.LBT_DOCUMENT && sord.type <= SordC.LBT_DOCUMENT_MAX;
+                        bool isReference = sord.parentId != parentId;
 
-                        // Wenn Ordner rekursiv aufrufen
-                        if (isFolder)
+                        bool doExportScript = false;
+                        // Keine Referenzen ausgeben
+                        if (!exportReferences)
                         {
-                            // Neuen Ordner in Windows anlegen, falls noch nicht vorhanden
-                            string subFolderPath = winPath + "\\" + sord.name;
-                            if (!Directory.Exists(subFolderPath))
+                            if (!isReference)
                             {
-                                Directory.CreateDirectory(subFolderPath);
+                                doExportScript = true;
                             }
-                            FindChildren(conn, arcPath + "/" + sord.name, subFolderPath);
+                        }
+                        // Referenzen mit ausgeben
+                        else
+                        {
+                            doExportScript = true;
                         }
 
-                        // Wenn Dokument Pfad und Name ausgeben
-                        if (isDocument)
+                        if (doExportScript)
                         {
-                            // Dokument aus Archiv downloaden und in Windows anlegen
-                            ed = conn.Ix.checkoutDoc(Convert.ToString(sord.id), null, EditInfoC.mbDocument, LockC.NO);
-                            DocVersion dv = ed.document.docs[0];
-                            String outFile = winPath + "\\" + sord.name + "." + dv.ext;
-                            if (File.Exists(outFile))
+                            // Wenn Ordner rekursiv aufrufen
+                            if (isFolder)
                             {
-                                File.Delete(outFile);
+                                // Neuen Ordner in Windows anlegen, falls noch nicht vorhanden
+                                string subFolderPath = winPath + "\\" + sord.name;
+                                if (!Directory.Exists(subFolderPath))
+                                {
+                                    try
+                                    {
+                                        Directory.CreateDirectory(subFolderPath);
+                                    }
+                                    catch (System.IO.PathTooLongException e)
+                                    {
+                                        Console.WriteLine("Exception: " + e.Message + " " + subFolderPath);
+                                        Debug.WriteLine("Exception: " + e.Message + " " + subFolderPath);
+                                        return;
+                                    }
+                                }
+                                FindChildren(conn, arcPath + "/" + sord.name, subFolderPath, exportReferences);
                             }
-                            conn.Download(dv.url, outFile);                            
-                            Console.WriteLine("Arcpath=" + arcPath + "/" + sord.name);
-                            Debug.WriteLine("Arcpath=" + arcPath + "/" + sord.name);
+
+                            // Wenn Dokument Pfad und Name ausgeben
+                            if (isDocument)
+                            {
+                                // Dokument aus Archiv downloaden und in Windows anlegen
+                                ed = conn.Ix.checkoutDoc(Convert.ToString(sord.id), null, EditInfoC.mbDocument, LockC.NO);
+                                DocVersion dv = ed.document.docs[0];
+                                String outFile = winPath + "\\" + sord.name + "." + dv.ext;
+                                if (File.Exists(outFile))
+                                {
+                                    File.Delete(outFile);
+                                }
+                                try
+                                {
+                                    conn.Download(dv.url, outFile);
+                                    Console.WriteLine("Arcpath=" + arcPath + "/" + sord.name);
+                                    Debug.WriteLine("Arcpath=" + arcPath + "/" + sord.name);
+                                }
+                                catch (System.IO.PathTooLongException e)
+                                {
+                                    Console.WriteLine("Exception: " + e.Message + " " + outFile);
+                                    Debug.WriteLine("Exception: " + e.Message + " " + outFile);
+                                    return;
+                                }
+                            }
+
                         }
 
                     }
@@ -140,7 +178,8 @@ namespace ExportSol
                 IXConnFactory connFact = new IXConnFactory(ixUrl, "ExportSol", "1.0");
                 IXConnection conn = connFact.Create(user, pwd, null, null);
 
-                FindChildren(conn, arcPath, winPath);
+                // TODO Referenzen standardmäßig ignorieren
+                FindChildren(conn, arcPath, winPath, false);
 
                 Console.WriteLine("ticket=" + conn.LoginResult.clientInfo.ticket);
                 conn.Logout();
