@@ -66,6 +66,8 @@
     </Compile>
     <Compile Include="ExportElo.cs" />
     <Compile Include="KonfigurationIx.cs" />
+    <Compile Include="KonfigurationOneNote.cs" />
+    <Compile Include="KonfigurationOneNoteTags.cs" />
     <Compile Include="KonfigurationParameter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

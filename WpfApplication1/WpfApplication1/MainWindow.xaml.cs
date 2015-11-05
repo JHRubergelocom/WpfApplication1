@@ -46,7 +46,7 @@ namespace WpfApplication1
                 {
                     if (chkExportReferences.IsChecked.HasValue)
                     {
-                        ExportElo.StartExportElo(actvalue, profiles[actvalue], (bool)chkExportReferences.IsChecked);
+                        ExportElo.StartExportElo(actvalue, profiles[actvalue].ixConf, (bool)chkExportReferences.IsChecked);
                         MessageBox.Show("Finished btnLoadEloScripte_Click");
                     }
                 }

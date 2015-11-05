@@ -141,19 +141,19 @@ namespace WpfApplication1
             }
         }
 
-        public static void StartExportElo(string profilename, KonfigurationParameter profile, bool exportReferences)
+        public static void StartExportElo(string profilename, KonfigurationIx ixConf, bool exportReferences)
         {
             try
             {
-                IXConnFactory connFact = new IXConnFactory(profile.ixConf.ixUrl, "StartExportElo", "1.0");
-                IXConnection conn = connFact.Create(profile.ixConf.user, profile.ixConf.pwd, null, null);
+                IXConnFactory connFact = new IXConnFactory(ixConf.ixUrl, "StartExportElo", "1.0");
+                IXConnection conn = connFact.Create(ixConf.user, ixConf.pwd, null, null);
                 string winPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\ExportElo\\" + profilename;
                 if (!Directory.Exists(winPath)) 
                 {
                     Directory.CreateDirectory(winPath);
                 }                
 
-                FindChildren(conn, profile.ixConf.arcPath, winPath, exportReferences);
+                FindChildren(conn, ixConf.arcPath, winPath, exportReferences);
 
                 Debug.WriteLine("ticket=" + conn.LoginResult.clientInfo.ticket);
                 conn.Logout();
