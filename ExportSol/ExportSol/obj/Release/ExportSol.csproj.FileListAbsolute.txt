@@ -1,0 +1,12 @@
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\bin\Release\ExportSol.exe.config
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\bin\Release\ExportSol.exe
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\bin\Release\ExportSol.pdb
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\bin\Release\CommandLine.dll
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\bin\Release\EloixClientCS.9.0.18.0.Fakes.dll
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\bin\Release\EloixClientCS.dll
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\bin\Release\Microsoft.QualityTools.Testing.Fakes.dll
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\bin\Release\EloixClientCS.9.0.18.0.Fakes.xml
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\bin\Release\de\Microsoft.QualityTools.Testing.Fakes.resources.dll
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\obj\Release\ExportSol.csprojResolveAssemblyReference.cache
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\obj\Release\ExportSol.exe
+C:\Users\Ruberg\documents\visual studio 2013\Projects\ExportSol\ExportSol\obj\Release\ExportSol.pdb
