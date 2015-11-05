@@ -12,12 +12,7 @@ namespace WpfApplication1
         private string _notebook;
         private string _ignoreTags;
         private string _renderImages;
-        private string _expandedTag;
-        private string _importantTag;
-        private string _criticalTag;
-        private string _warningTag;
-        private string _cautionTag;
-        private string _thumbnailTag;
+        private KonfigurationOneNoteTags _onenoteTags;
 
         public string notebook
         {
@@ -55,89 +50,25 @@ namespace WpfApplication1
             }
         }
 
-        public string expandedTag
+        public KonfigurationOneNoteTags onenoteTags
         {
             get
             {
-                return _expandedTag;
+                return _onenoteTags;
             }
             set
             {
-                _expandedTag = value;
+                _onenoteTags = value;
             }
         }
 
-        public string importantTag
-        {
-            get
-            {
-                return _importantTag;
-            }
-            set
-            {
-                _importantTag = value;
-            }
-        }
 
-        public string criticalTag
-        {
-            get
-            {
-                return _criticalTag;
-            }
-            set
-            {
-                _criticalTag = value;
-            }
-        }
-
-        public string warningTag
-        {
-            get
-            {
-                return _warningTag;
-            }
-            set
-            {
-                _warningTag = value;
-            }
-        }
-
-        public string cautionTag
-        {
-            get
-            {
-                return _cautionTag;
-            }
-            set
-            {
-                _cautionTag = value;
-            }
-        }
-
-        public string thumbnailTag
-        {
-            get
-            {
-                return _thumbnailTag;
-            }
-            set
-            {
-                _thumbnailTag = value;
-            }
-        }
-
-        public KonfigurationOneNote(string notebook, string ignoreTags, string renderImages, string expandedTag, string importantTag, string criticalTag, string warningTag, string cautionTag, string thumbnailTag)
+        public KonfigurationOneNote(string notebook, string ignoreTags, string renderImages, KonfigurationOneNoteTags onenoteTags)
         {
             this._notebook = notebook;
             this._ignoreTags = ignoreTags;
             this._renderImages = renderImages;
-            this._expandedTag = expandedTag;
-            this._importantTag = importantTag;
-            this._criticalTag = criticalTag;
-            this._warningTag = warningTag;
-            this._cautionTag = cautionTag;
-            this._thumbnailTag = thumbnailTag;
+            this._onenoteTags = onenoteTags;
         }
 
         public KonfigurationOneNote()
@@ -145,12 +76,7 @@ namespace WpfApplication1
             this._notebook = "";
             this._ignoreTags = "";
             this._renderImages = "";
-            this._expandedTag = "";
-            this._importantTag = "";
-            this._criticalTag = "";
-            this._warningTag = "";
-            this._cautionTag = "";
-            this._thumbnailTag = "";
+            this._onenoteTags = new KonfigurationOneNoteTags();
         }
 
         public KonfigurationOneNote(XmlNode onenoteConfNode)
@@ -158,12 +84,7 @@ namespace WpfApplication1
             this._notebook = "";
             this._ignoreTags = "";
             this._renderImages = "";
-            this._expandedTag = "";
-            this._importantTag = "";
-            this._criticalTag = "";
-            this._warningTag = "";
-            this._cautionTag = "";
-            this._thumbnailTag = "";
+            this._onenoteTags = new KonfigurationOneNoteTags();
 
             foreach (XmlNode subNode in onenoteConfNode.ChildNodes)
             {
@@ -181,28 +102,8 @@ namespace WpfApplication1
                         _renderImages = subNode.InnerText;
                         break;
 
-                    case "expandedTag":
-                        _expandedTag = subNode.InnerText;
-                        break;
-
-                    case "importantTag":
-                        _importantTag = subNode.InnerText;
-                        break;
-
-                    case "criticalTag":
-                        _criticalTag = subNode.InnerText;
-                        break;
-
-                    case "warningTag":
-                        _warningTag = subNode.InnerText;
-                        break;
-
-                    case "cautionTag":
-                        _cautionTag = subNode.InnerText;
-                        break;
-
-                    case "thumbnailTag":
-                        _thumbnailTag = subNode.InnerText;
+                    case "onenotetagsConf":
+                        _onenoteTags = new KonfigurationOneNoteTags(subNode);
                         break;
                 }
             }
@@ -230,22 +131,7 @@ namespace WpfApplication1
             nodeElem = CreateXMLNodeValue(xmlDoc, "renderImages", renderImages);
             ixConfElem.AppendChild(nodeElem);
 
-            nodeElem = CreateXMLNodeValue(xmlDoc, "expandedTag", expandedTag);
-            ixConfElem.AppendChild(nodeElem);
-
-            nodeElem = CreateXMLNodeValue(xmlDoc, "importantTag", importantTag);
-            ixConfElem.AppendChild(nodeElem);
-
-            nodeElem = CreateXMLNodeValue(xmlDoc, "criticalTag", criticalTag);
-            ixConfElem.AppendChild(nodeElem);
-
-            nodeElem = CreateXMLNodeValue(xmlDoc, "warningTag", warningTag);
-            ixConfElem.AppendChild(nodeElem);
-
-            nodeElem = CreateXMLNodeValue(xmlDoc, "cautionTag", cautionTag);
-            ixConfElem.AppendChild(nodeElem);
-
-            nodeElem = CreateXMLNodeValue(xmlDoc, "thumbnailTag", thumbnailTag);
+            nodeElem = onenoteTags.CreateXMLNode(xmlDoc);
             ixConfElem.AppendChild(nodeElem);
 
             return ixConfElem;
