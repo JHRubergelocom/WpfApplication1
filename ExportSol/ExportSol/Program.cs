@@ -153,6 +153,7 @@ namespace ExportSol
             string ixUrl = "http://srvpdevbs01vm:8010/ix-invoice/ix";
             string user = "Ruberg";
             string pwd = "elo";
+            string exportref = "false";
 
             var cmdLineOptions = new ExportSol.CommandLineOptions();
             if (CommandLine.Parser.Default.ParseArguments(args, cmdLineOptions))
@@ -162,11 +163,13 @@ namespace ExportSol
                 Debug.WriteLine("ixurl: {0}", cmdLineOptions.ixurl);
                 Debug.WriteLine("user: {0}", cmdLineOptions.user);
                 Debug.WriteLine("pwd: {0}", cmdLineOptions.pwd);
+                Debug.WriteLine("exportref: {0}", cmdLineOptions.exportref);
                 arcPath = cmdLineOptions.arcpath;
                 winPath = cmdLineOptions.winpath;
                 ixUrl = cmdLineOptions.ixurl;
                 user = cmdLineOptions.user;
-                pwd = cmdLineOptions.pwd;  
+                pwd = cmdLineOptions.pwd;
+                exportref = cmdLineOptions.exportref;
             }
             else
             {
@@ -179,7 +182,15 @@ namespace ExportSol
                 IXConnection conn = connFact.Create(user, pwd, null, null);
 
                 // TODO Referenzen standardmäßig ignorieren
-                FindChildren(conn, arcPath, winPath, false);
+                if (exportref.Equals("false"))
+                {
+                    FindChildren(conn, arcPath, winPath, false);
+                }
+                else
+                {
+                    FindChildren(conn, arcPath, winPath, true);
+                }
+                // TODO
 
                 Console.WriteLine("ticket=" + conn.LoginResult.clientInfo.ticket);
                 conn.Logout();

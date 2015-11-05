@@ -2,6 +2,6 @@
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <StartAction>Project</StartAction>
-    <StartArguments>--arcpath "ARCPATH[1]:/Administration/Business Solutions" --winpath "E:/Temp/sol" --ixurl "http://srvpdevbs01vm:8010/ix-invoice/ix" --user "Ruberg" --pwd "elo"</StartArguments>
+    <StartArguments>--arcpath "ARCPATH[1]:/Administration/Business Solutions" --winpath "E:/Temp/sol" --ixurl "http://srvpdevbs01vm:8010/ix-invoice/ix" --user "Ruberg" --pwd "elo" --exportref "false"</StartArguments>
   </PropertyGroup>
 </Project>

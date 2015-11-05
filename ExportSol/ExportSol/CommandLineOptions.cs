@@ -23,5 +23,8 @@ namespace ExportSol
 
         [Option('p', "pwd", Required = true)]
         public string pwd { get; set; }
+
+        [Option('e', "exportref", Required = true)]
+        public string exportref { get; set; }
     }
 }
