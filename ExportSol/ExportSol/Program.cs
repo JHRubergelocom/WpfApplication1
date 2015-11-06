@@ -12,7 +12,7 @@ namespace ExportSol
 {
     class Program {
 
-        private static void FindChildren(IXConnection conn, string arcPath, string winPath, bool exportReferences)
+        private static void FindChildren(IXConnection conn, string arcPath, string winPath, bool exportReferences, string maskName)
         {
 
             FindInfo fi = null;
@@ -56,6 +56,26 @@ namespace ExportSol
                             doExportScript = true;
                         }
 
+                        // Prüfen, ob bestimmte Verschlagwortungsmaske angegeben
+                        if (doExportScript && isDocument) 
+                        {
+                            if (maskName.Trim().Equals(""))
+                            {
+                                doExportScript = true;
+                            }
+                            else
+                            {
+                                if (sord.maskName.Equals(maskName))
+                                {
+                                    doExportScript = true;
+                                }
+                                else
+                                {
+                                    doExportScript = false;
+                                }
+                            }                        
+                        }
+
                         if (doExportScript)
                         {
                             // Wenn Ordner rekursiv aufrufen
@@ -76,7 +96,7 @@ namespace ExportSol
                                         return;
                                     }
                                 }
-                                FindChildren(conn, arcPath + "/" + sord.name, subFolderPath, exportReferences);
+                                FindChildren(conn, arcPath + "/" + sord.name, subFolderPath, exportReferences, maskName);
                             }
 
                             // Wenn Dokument Pfad und Name ausgeben
@@ -93,8 +113,8 @@ namespace ExportSol
                                 try
                                 {
                                     conn.Download(dv.url, outFile);
-                                    Console.WriteLine("Arcpath=" + arcPath + "/" + sord.name);
-                                    Debug.WriteLine("Arcpath=" + arcPath + "/" + sord.name);
+                                    Console.WriteLine("Arcpath=" + arcPath + "/" + sord.name + "  Maskname=" + sord.maskName);
+                                    Debug.WriteLine("Arcpath=" + arcPath + "/" + sord.name + "  Maskname=" + sord.maskName);
                                 }
                                 catch (System.IO.PathTooLongException e)
                                 {
@@ -154,7 +174,7 @@ namespace ExportSol
             string user = "Ruberg";
             string pwd = "elo";
             string exportref = "false";
-
+            string maskname = "ELOScripts";
             var cmdLineOptions = new ExportSol.CommandLineOptions();
             if (CommandLine.Parser.Default.ParseArguments(args, cmdLineOptions))
             {
@@ -164,12 +184,14 @@ namespace ExportSol
                 Debug.WriteLine("user: {0}", cmdLineOptions.user);
                 Debug.WriteLine("pwd: {0}", cmdLineOptions.pwd);
                 Debug.WriteLine("exportref: {0}", cmdLineOptions.exportref);
+                Debug.WriteLine("maskname: {0}", cmdLineOptions.maskname);
                 arcPath = cmdLineOptions.arcpath;
                 winPath = cmdLineOptions.winpath;
                 ixUrl = cmdLineOptions.ixurl;
                 user = cmdLineOptions.user;
                 pwd = cmdLineOptions.pwd;
                 exportref = cmdLineOptions.exportref;
+                maskname = cmdLineOptions.maskname;
             }
             else
             {
@@ -180,18 +202,8 @@ namespace ExportSol
             {
                 IXConnFactory connFact = new IXConnFactory(ixUrl, "ExportSol", "1.0");
                 IXConnection conn = connFact.Create(user, pwd, null, null);
-
-                // TODO Referenzen standardmäßig ignorieren
-                if (exportref.Equals("false"))
-                {
-                    FindChildren(conn, arcPath, winPath, false);
-                }
-                else
-                {
-                    FindChildren(conn, arcPath, winPath, true);
-                }
-                // TODO
-
+                bool exportreferences = exportref.Equals("false") ? false : true;
+                FindChildren(conn, arcPath, winPath, exportreferences, maskname);
                 Console.WriteLine("ticket=" + conn.LoginResult.clientInfo.ticket);
                 conn.Logout();
             }

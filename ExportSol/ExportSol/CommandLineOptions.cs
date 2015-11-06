@@ -26,5 +26,8 @@ namespace ExportSol
 
         [Option('e', "exportref", Required = true)]
         public string exportref { get; set; }
+
+        [Option('m', "maskname", Required = true)]
+        public string maskname { get; set; }
     }
 }
