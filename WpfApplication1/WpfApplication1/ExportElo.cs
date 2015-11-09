@@ -12,7 +12,7 @@ namespace WpfApplication1
 {
     class ExportElo
     {
-        public static void FindChildren(IXConnection conn, string arcPath, string winPath, bool exportReferences)
+        public static void FindChildren(IXConnection conn, string arcPath, string winPath, bool exportReferences, string maskName)
         {
 
             FindInfo fi = null;
@@ -41,7 +41,6 @@ namespace WpfApplication1
                         bool isDocument = sord.type >= SordC.LBT_DOCUMENT && sord.type <= SordC.LBT_DOCUMENT_MAX;
                         bool isReference = sord.parentId != parentId;
 
-
                         bool doExportScript = false;
                         // Keine Referenzen ausgeben
                         if (!exportReferences)
@@ -55,6 +54,26 @@ namespace WpfApplication1
                         else
                         {
                             doExportScript = true;
+                        }
+
+                        // Prüfen, ob bestimmte Verschlagwortungsmaske angegeben
+                        if (doExportScript && isDocument)
+                        {
+                            if (maskName.Trim().Equals(""))
+                            {
+                                doExportScript = true;
+                            }
+                            else
+                            {
+                                if (sord.maskName.Equals(maskName))
+                                {
+                                    doExportScript = true;
+                                }
+                                else
+                                {
+                                    doExportScript = false;
+                                }
+                            }
                         }
 
                         if (doExportScript)
@@ -72,12 +91,12 @@ namespace WpfApplication1
                                     }
                                     catch (System.IO.PathTooLongException e)
                                     {
+                                        Console.WriteLine("Exception: " + e.Message + " " + subFolderPath);
                                         Debug.WriteLine("Exception: " + e.Message + " " + subFolderPath);
                                         return;
                                     }
-
                                 }
-                                FindChildren(conn, arcPath + "/" + sord.name, subFolderPath, exportReferences);
+                                FindChildren(conn, arcPath + "/" + sord.name, subFolderPath, exportReferences, maskName);
                             }
 
                             // Wenn Dokument Pfad und Name ausgeben
@@ -94,10 +113,12 @@ namespace WpfApplication1
                                 try
                                 {
                                     conn.Download(dv.url, outFile);
-                                    Debug.WriteLine("Arcpath=" + arcPath + "/" + sord.name);
+                                    Console.WriteLine("Arcpath=" + arcPath + "/" + sord.name + "  Maskname=" + sord.maskName);
+                                    Debug.WriteLine("Arcpath=" + arcPath + "/" + sord.name + "  Maskname=" + sord.maskName);
                                 }
                                 catch (System.IO.PathTooLongException e)
                                 {
+                                    Console.WriteLine("Exception: " + e.Message + " " + outFile);
                                     Debug.WriteLine("Exception: " + e.Message + " " + outFile);
                                     return;
                                 }
@@ -115,6 +136,7 @@ namespace WpfApplication1
             {
                 if (e.Source != null)
                 {
+                    Console.WriteLine("byps.BException message: {0}", e.Message);
                     Debug.WriteLine("byps.BException message: {0}", e.Message);
                 }
             }
@@ -122,6 +144,7 @@ namespace WpfApplication1
             {
                 if (e.Source != null)
                 {
+                    Console.WriteLine("System.IO.DirectoryNotFoundException message: {0}", e.Message);
                     Debug.WriteLine("System.IO.DirectoryNotFoundException message: {0}", e.Message);
                 }
             }
@@ -129,6 +152,7 @@ namespace WpfApplication1
             {
                 if (e.Source != null)
                 {
+                    Console.WriteLine("System.NotSupportedException message: {0}", e.Message);
                     Debug.WriteLine("System.NotSupportedException message: {0}", e.Message);
                 }
             }
@@ -141,7 +165,7 @@ namespace WpfApplication1
             }
         }
 
-        public static void StartExportElo(string profilename, KonfigurationIx ixConf, bool exportReferences)
+        public static void StartExportElo(string profilename, KonfigurationIx ixConf)
         {
             try
             {
@@ -151,9 +175,9 @@ namespace WpfApplication1
                 if (!Directory.Exists(winPath)) 
                 {
                     Directory.CreateDirectory(winPath);
-                }                
+                }
 
-                FindChildren(conn, ixConf.arcPath, winPath, exportReferences);
+                FindChildren(conn, ixConf.arcPath, winPath, ixConf.exportReferences, ixConf.maskName);
 
                 Debug.WriteLine("ticket=" + conn.LoginResult.clientInfo.ticket);
                 conn.Logout();

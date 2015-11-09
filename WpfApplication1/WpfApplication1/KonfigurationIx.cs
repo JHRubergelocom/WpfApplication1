@@ -13,6 +13,8 @@ namespace WpfApplication1
         private string _ixUrl;
         private string _user;
         private string _pwd;
+        private bool _exportReferences;
+        private string _maskName;
 
         public string arcPath
         {
@@ -59,13 +61,37 @@ namespace WpfApplication1
                 _pwd = value;
             }
         }
+        public bool exportReferences
+        {
+            get
+            {
+                return _exportReferences;
+            }
+            set
+            {
+                _exportReferences = value;
+            }
+        }
+        public string maskName
+        {
+            get
+            {
+                return _maskName;
+            }
+            set
+            {
+                _maskName = value;
+            }
+        }
 
-        public KonfigurationIx(string arcPath, string ixUrl, string user, string pwd)
+        public KonfigurationIx(string arcPath, string ixUrl, string user, string pwd, bool exportReferences, string maskName)
         {
             this._arcPath = arcPath;
             this._ixUrl = ixUrl;
             this._user = user;
             this._pwd = pwd;
+            this._exportReferences = exportReferences;
+            this._maskName = maskName;
         }
 
         public KonfigurationIx()
@@ -74,6 +100,8 @@ namespace WpfApplication1
             this._ixUrl = "";
             this._user = "";
             this._pwd = "";
+            this._exportReferences = false;
+            this._maskName = "";
         }
 
         public KonfigurationIx(XmlNode ixConfNode)
@@ -82,6 +110,8 @@ namespace WpfApplication1
             this._ixUrl = "";
             this._user = "";
             this._pwd = "";
+            this._exportReferences = false;
+            this._maskName = "";
 
             foreach (XmlNode subNode in ixConfNode.ChildNodes)
             {
@@ -101,6 +131,14 @@ namespace WpfApplication1
 
                     case "pwd":
                         _pwd = subNode.InnerText;
+                        break;
+
+                    case "exportReferences":
+                        _exportReferences = bool.Parse(subNode.InnerText);                       
+                        break;
+
+                    case "maskName":
+                        _maskName = subNode.InnerText;
                         break;
                 }
             }
@@ -129,6 +167,12 @@ namespace WpfApplication1
             ixConfElem.AppendChild(nodeElem);
 
             nodeElem = CreateXMLNodeValue(xmlDoc, "pwd", pwd);
+            ixConfElem.AppendChild(nodeElem);
+
+            nodeElem = CreateXMLNodeValue(xmlDoc, "exportReferences", exportReferences.ToString());
+            ixConfElem.AppendChild(nodeElem);
+
+            nodeElem = CreateXMLNodeValue(xmlDoc, "maskName", maskName);
             ixConfElem.AppendChild(nodeElem);
 
             return ixConfElem;

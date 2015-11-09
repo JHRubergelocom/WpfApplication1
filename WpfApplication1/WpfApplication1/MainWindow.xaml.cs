@@ -46,7 +46,7 @@ namespace WpfApplication1
                 {
                     if (chkExportReferences.IsChecked.HasValue)
                     {
-                        ExportElo.StartExportElo(actvalue, profiles[actvalue].ixConf, (bool)chkExportReferences.IsChecked);
+                        ExportElo.StartExportElo(actvalue, profiles[actvalue].ixConf);
                         MessageBox.Show("Finished btnLoadEloScripte_Click");
                     }
                 }
@@ -59,7 +59,7 @@ namespace WpfApplication1
             if (dialog.ShowDialog() == true)
             {
                 // MessageBox.Show("You select Profilename: " + dialog.txtProfileName);
-                KonfigurationParameter newprofile = new KonfigurationParameter(new KonfigurationIx("arcPath", "ixUrl", "user", "pwd"));
+                KonfigurationParameter newprofile = new KonfigurationParameter(new KonfigurationIx("arcPath", "ixUrl", "user", "pwd", false, "maskName"));
                 string newprofilename = dialog.txtProfileName.Text;
                 if (!profiles.ContainsKey(newprofilename))
                 {
@@ -161,11 +161,13 @@ namespace WpfApplication1
             txtArcPath.Text = profile.ixConf.arcPath;
             txtIxUrl.Text = profile.ixConf.ixUrl;
             txtPwd.Password = profile.ixConf.pwd;
+            chkExportReferences.IsChecked = profile.ixConf.exportReferences;
+            txtMaskName.Text = profile.ixConf.maskName;
         }
 
         private KonfigurationParameter GetValues()
-        {   
-            KonfigurationParameter profile = new KonfigurationParameter(new KonfigurationIx(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Password));
+        {
+            KonfigurationParameter profile = new KonfigurationParameter(new KonfigurationIx(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Password, (bool)chkExportReferences.IsChecked, txtMaskName.Text));
             return profile;
         }
 
@@ -176,6 +178,8 @@ namespace WpfApplication1
             txtIxUrl.IsEnabled = status;
             txtPwd.IsEnabled = status;
             txtUser.IsEnabled = status;
+            chkExportReferences.IsEnabled = status;
+            txtMaskName.IsEnabled = status;
 
             btnDeleteProfile.IsEnabled = status;
             btnSaveProfile.IsEnabled = status;
