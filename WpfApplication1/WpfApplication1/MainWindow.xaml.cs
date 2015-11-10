@@ -59,7 +59,9 @@ namespace WpfApplication1
             if (dialog.ShowDialog() == true)
             {
                 // MessageBox.Show("You select Profilename: " + dialog.txtProfileName);
-                KonfigurationParameter newprofile = new KonfigurationParameter(new KonfigurationIx("arcPath", "ixUrl", "user", "pwd", false, "maskName"));
+                KonfigurationParameter newprofile = new KonfigurationParameter(new KonfigurationIx("arcPath", "ixUrl", "user", "pwd", false, "maskName"), 
+                                                                               new KonfigurationOneNote("notebook", "ignoreTags", "renderImages", 
+                                                                               new KonfigurationOneNoteTags("expandedTag", "importantTag", "criticalTag", "warningTag", "cautionTag", "thumbnailTag")));
                 string newprofilename = dialog.txtProfileName.Text;
                 if (!profiles.ContainsKey(newprofilename))
                 {
@@ -167,7 +169,11 @@ namespace WpfApplication1
 
         private KonfigurationParameter GetValues()
         {
-            KonfigurationParameter profile = new KonfigurationParameter(new KonfigurationIx(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Password, (bool)chkExportReferences.IsChecked, txtMaskName.Text));
+            // TODO anpassen an Controls
+            KonfigurationParameter profile = new KonfigurationParameter(new KonfigurationIx(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Password, (bool)chkExportReferences.IsChecked, txtMaskName.Text),
+                                                                        new KonfigurationOneNote("notebook", "ignoreTags", "renderImages",
+                                                                               new KonfigurationOneNoteTags("expandedTag", "importantTag", "criticalTag", "warningTag", "cautionTag", "thumbnailTag")));
+            // TODO anpassen an Controls
             return profile;
         }
 

@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace WpfApplication1
 {
-    class KonfigurationOneNote
+    public class KonfigurationOneNote
     {
         private string _notebook;
         private string _ignoreTags;

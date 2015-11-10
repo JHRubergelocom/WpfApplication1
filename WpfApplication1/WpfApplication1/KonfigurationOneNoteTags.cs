@@ -7,7 +7,7 @@ using System.Xml;
 
 namespace WpfApplication1
 {
-    class KonfigurationOneNoteTags
+    public class KonfigurationOneNoteTags
     {
         private string _expandedTag;
         private string _importantTag;
