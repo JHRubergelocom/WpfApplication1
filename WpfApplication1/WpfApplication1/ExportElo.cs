@@ -42,8 +42,8 @@ namespace WpfApplication1
                         bool isReference = sord.parentId != parentId;
 
                         bool doExportScript = false;
-                        // Keine Referenzen ausgeben bei Dokumenten
-                        if (!exportReferences && isDocument)
+                        // Keine Referenzen ausgeben
+                        if (!exportReferences)
                         {
                             if (!isReference)
                             {
