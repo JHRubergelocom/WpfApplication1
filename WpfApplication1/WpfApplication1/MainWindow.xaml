@@ -19,12 +19,12 @@
                     <Label Content="pwd" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top"/>
                     <Label Content="user" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                     <Label Content="maskName" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="txtUser" HorizontalAlignment="Left" Height="23" Margin="138,10,0,0" TextWrapping="Wrap" Text="user" VerticalAlignment="Top" Width="260"/>
-                    <PasswordBox x:Name="txtPwd" HorizontalAlignment="Left" Height="23" Margin="138,44,0,0" VerticalAlignment="Top" Width="260" PasswordChar="*" MaxLength="8"/>
-                    <TextBox x:Name="txtIxUrl" HorizontalAlignment="Left" Height="23" Margin="138,78,0,0" TextWrapping="Wrap" Text="ixUrl" VerticalAlignment="Top" Width="260"/>
-                    <TextBox x:Name="txtArcPath" HorizontalAlignment="Left" Height="23" Margin="138,108,0,0" TextWrapping="Wrap" Text="arcPath" VerticalAlignment="Top" Width="260"/>
+                    <TextBox x:Name="txtUser" HorizontalAlignment="Left" Height="23" Margin="138,10,0,0" TextWrapping="Wrap" Text="user" VerticalAlignment="Top" Width="320"/>
+                    <PasswordBox x:Name="txtPwd" HorizontalAlignment="Left" Height="23" Margin="138,44,0,0" VerticalAlignment="Top" Width="320" PasswordChar="*" MaxLength="8"/>
+                    <TextBox x:Name="txtIxUrl" HorizontalAlignment="Left" Height="23" Margin="138,78,0,0" TextWrapping="Wrap" Text="ixUrl" VerticalAlignment="Top" Width="320"/>
+                    <TextBox x:Name="txtArcPath" HorizontalAlignment="Left" Height="23" Margin="138,108,0,0" TextWrapping="Wrap" Text="arcPath" VerticalAlignment="Top" Width="320"/>
                     <CheckBox x:Name="chkExportReferences" Content="Referenzen exportieren" HorizontalAlignment="Left" Margin="17,146,0,0" VerticalAlignment="Top" Width="199"/>
-                    <TextBox x:Name="txtMaskName" HorizontalAlignment="Left" Height="23" Margin="138,170,0,0" TextWrapping="Wrap" Text="maskName" VerticalAlignment="Top" Width="260"/>
+                    <TextBox x:Name="txtMaskName" HorizontalAlignment="Left" Height="23" Margin="138,170,0,0" TextWrapping="Wrap" Text="maskName" VerticalAlignment="Top" Width="320"/>
                 </Grid>
             </TabItem>
             <TabItem Header="OneNote Konfiguration">
