@@ -42,8 +42,8 @@ namespace ExportSol
                         bool isReference = sord.parentId != parentId;
 
                         bool doExportScript = false;
-                        // Keine Referenzen ausgeben
-                        if (!exportReferences)
+                        // Keine Referenzen ausgeben bei Dokumenten
+                        if (!exportReferences && isDocument)
                         {
                             if (!isReference)
                             {
