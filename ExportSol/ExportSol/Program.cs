@@ -202,7 +202,7 @@ namespace ExportSol
             {
                 IXConnFactory connFact = new IXConnFactory(ixUrl, "ExportSol", "1.0");
                 IXConnection conn = connFact.Create(user, pwd, null, null);
-                bool exportreferences = exportref.Equals("false") ? false : true;
+                bool exportreferences = exportref.Equals("true") ? true : false;
                 FindChildren(conn, arcPath, winPath, exportreferences, maskname);
                 Console.WriteLine("ticket=" + conn.LoginResult.clientInfo.ticket);
                 conn.Logout();
