@@ -11,7 +11,7 @@ namespace WpfApplication1
     {
         private string _notebook;
         private string _ignoreTags;
-        private string _renderImages;
+        private bool _renderImages;
         private KonfigurationOneNoteTags _onenoteTags;
 
         public string notebook
@@ -38,7 +38,7 @@ namespace WpfApplication1
             }
         }
 
-        public string renderImages
+        public bool renderImages
         {
             get
             {
@@ -63,7 +63,7 @@ namespace WpfApplication1
         }
 
 
-        public KonfigurationOneNote(string notebook, string ignoreTags, string renderImages, KonfigurationOneNoteTags onenoteTags)
+        public KonfigurationOneNote(string notebook, string ignoreTags, bool renderImages, KonfigurationOneNoteTags onenoteTags)
         {
             this._notebook = notebook;
             this._ignoreTags = ignoreTags;
@@ -75,7 +75,7 @@ namespace WpfApplication1
         {
             this._notebook = "";
             this._ignoreTags = "";
-            this._renderImages = "";
+            this._renderImages = true;
             this._onenoteTags = new KonfigurationOneNoteTags();
         }
 
@@ -83,7 +83,7 @@ namespace WpfApplication1
         {
             this._notebook = "";
             this._ignoreTags = "";
-            this._renderImages = "";
+            this._renderImages = true;
             this._onenoteTags = new KonfigurationOneNoteTags();
 
             foreach (XmlNode subNode in onenoteConfNode.ChildNodes)
@@ -99,7 +99,7 @@ namespace WpfApplication1
                         break;
 
                     case "renderImages":
-                        _renderImages = subNode.InnerText;
+                        _renderImages = bool.Parse(subNode.InnerText);
                         break;
 
                     case "onenotetagsConf":
@@ -128,7 +128,7 @@ namespace WpfApplication1
             nodeElem = CreateXMLNodeValue(xmlDoc, "ignoreTags", ignoreTags);
             ixConfElem.AppendChild(nodeElem);
 
-            nodeElem = CreateXMLNodeValue(xmlDoc, "renderImages", renderImages);
+            nodeElem = CreateXMLNodeValue(xmlDoc, "renderImages", renderImages.ToString());
             ixConfElem.AppendChild(nodeElem);
 
             nodeElem = onenoteTags.CreateXMLNode(xmlDoc);

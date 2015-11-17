@@ -53,6 +53,23 @@ namespace WpfApplication1
             }
         }
 
+        private void btnGenerateOneNotePages_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    if (chkRenderImages.IsChecked.HasValue)
+                    {
+                        ExportOneNotePages.StartExportOneNotePages(actvalue, profiles[actvalue].onenoteConf);
+                        MessageBox.Show("Finished btnGenerateOneNotePages_Click");
+                    }
+                }
+            }
+        }
+
+
         private void btnNewProfile_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new NewProfilDialog(this);
@@ -60,7 +77,7 @@ namespace WpfApplication1
             {
                 // MessageBox.Show("You select Profilename: " + dialog.txtProfileName);
                 KonfigurationParameter newprofile = new KonfigurationParameter(new KonfigurationIx("arcPath", "ixUrl", "user", "pwd", false, "maskName"), 
-                                                                               new KonfigurationOneNote("notebook", "ignoreTags", "renderImages", 
+                                                                               new KonfigurationOneNote("notebook", "ignoreTags", true, 
                                                                                new KonfigurationOneNoteTags("expandedTag", "importantTag", "criticalTag", "warningTag", "cautionTag", "thumbnailTag")));
                 string newprofilename = dialog.txtProfileName.Text;
                 if (!profiles.ContainsKey(newprofilename))
@@ -165,15 +182,24 @@ namespace WpfApplication1
             txtPwd.Password = profile.ixConf.pwd;
             chkExportReferences.IsChecked = profile.ixConf.exportReferences;
             txtMaskName.Text = profile.ixConf.maskName;
+
+            txtNotebook.Text = profile.onenoteConf.notebook;
+            txtIgnoreTags.Text = profile.onenoteConf.ignoreTags;
+            chkRenderImages.IsChecked = profile.onenoteConf.renderImages;
+
+            txtExpandedTag.Text = profile.onenoteConf.onenoteTags.expandedTag;
+            txtImportantTag.Text = profile.onenoteConf.onenoteTags.importantTag;
+            txtCriticalTag.Text = profile.onenoteConf.onenoteTags.criticalTag;
+            txtWarningTag.Text = profile.onenoteConf.onenoteTags.warningTag;
+            txtCautionTag.Text = profile.onenoteConf.onenoteTags.cautionTag;
+            txtThumbnailTag.Text = profile.onenoteConf.onenoteTags.thumbnailTag;
         }
 
         private KonfigurationParameter GetValues()
         {
-            // TODO anpassen an Controls
             KonfigurationParameter profile = new KonfigurationParameter(new KonfigurationIx(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Password, (bool)chkExportReferences.IsChecked, txtMaskName.Text),
-                                                                        new KonfigurationOneNote("notebook", "ignoreTags", "renderImages",
-                                                                               new KonfigurationOneNoteTags("expandedTag", "importantTag", "criticalTag", "warningTag", "cautionTag", "thumbnailTag")));
-            // TODO anpassen an Controls
+                                                                        new KonfigurationOneNote(txtNotebook.Text, txtIgnoreTags.Text, (bool)chkRenderImages.IsChecked,
+                                                                        new KonfigurationOneNoteTags(txtExpandedTag.Text, txtImportantTag.Text, txtCriticalTag.Text, txtWarningTag.Text, txtCautionTag.Text, txtThumbnailTag.Text)));
             return profile;
         }
 
@@ -186,6 +212,17 @@ namespace WpfApplication1
             txtUser.IsEnabled = status;
             chkExportReferences.IsEnabled = status;
             txtMaskName.IsEnabled = status;
+
+            txtNotebook.IsEnabled = status;
+            txtIgnoreTags.IsEnabled = status;
+            chkRenderImages.IsEnabled = status;
+
+            txtExpandedTag.IsEnabled = status;
+            txtImportantTag.IsEnabled = status;
+            txtCriticalTag.IsEnabled = status;
+            txtWarningTag.IsEnabled = status;
+            txtCautionTag.IsEnabled = status;
+            txtThumbnailTag.IsEnabled = status;
 
             btnDeleteProfile.IsEnabled = status;
             btnSaveProfile.IsEnabled = status;

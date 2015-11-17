@@ -91,7 +91,6 @@ namespace WpfApplication1
                                     }
                                     catch (System.IO.PathTooLongException e)
                                     {
-                                        Console.WriteLine("Exception: " + e.Message + " " + subFolderPath);
                                         Debug.WriteLine("Exception: " + e.Message + " " + subFolderPath);
                                         return;
                                     }
@@ -113,12 +112,10 @@ namespace WpfApplication1
                                 try
                                 {
                                     conn.Download(dv.url, outFile);
-                                    Console.WriteLine("Arcpath=" + arcPath + "/" + sord.name + "  Maskname=" + sord.maskName);
                                     Debug.WriteLine("Arcpath=" + arcPath + "/" + sord.name + "  Maskname=" + sord.maskName);
                                 }
                                 catch (System.IO.PathTooLongException e)
                                 {
-                                    Console.WriteLine("Exception: " + e.Message + " " + outFile);
                                     Debug.WriteLine("Exception: " + e.Message + " " + outFile);
                                     return;
                                 }
@@ -136,7 +133,6 @@ namespace WpfApplication1
             {
                 if (e.Source != null)
                 {
-                    Console.WriteLine("byps.BException message: {0}", e.Message);
                     Debug.WriteLine("byps.BException message: {0}", e.Message);
                 }
             }
@@ -144,7 +140,6 @@ namespace WpfApplication1
             {
                 if (e.Source != null)
                 {
-                    Console.WriteLine("System.IO.DirectoryNotFoundException message: {0}", e.Message);
                     Debug.WriteLine("System.IO.DirectoryNotFoundException message: {0}", e.Message);
                 }
             }
@@ -152,7 +147,6 @@ namespace WpfApplication1
             {
                 if (e.Source != null)
                 {
-                    Console.WriteLine("System.NotSupportedException message: {0}", e.Message);
                     Debug.WriteLine("System.NotSupportedException message: {0}", e.Message);
                 }
             }

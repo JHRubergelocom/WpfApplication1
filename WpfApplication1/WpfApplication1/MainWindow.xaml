@@ -1,17 +1,17 @@
 ﻿<Window x:Class="WpfApplication1.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="500" Width="600">
+        Title="MainWindow" Height="629" Width="600">
     <Grid>
-        <Button x:Name="btnLoadEloScripte" Content="ELO Scripte herunterladen" HorizontalAlignment="Left" Margin="22,402,0,0" VerticalAlignment="Top" Width="180" Click="btnLoadEloScripte_Click"/>
-        <Button x:Name="btnGenerateOneNotePages" Content="OneNote Seiten erzeugen" HorizontalAlignment="Left" Margin="22,436,0,0" VerticalAlignment="Top" Width="180"/>
+        <Button x:Name="btnLoadEloScripte" Content="ELO Scripte herunterladen" HorizontalAlignment="Left" Margin="22,520,0,0" VerticalAlignment="Top" Width="180" Click="btnLoadEloScripte_Click"/>
+        <Button x:Name="btnGenerateOneNotePages" Content="OneNote Seiten erzeugen" HorizontalAlignment="Left" Margin="22,554,0,0" VerticalAlignment="Top" Width="180" Click="btnGenerateOneNotePages_Click"/>
         <Label Content="Profil" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="66"/>
         <ComboBox x:Name="cboProfile" HorizontalAlignment="Left" Margin="20,48,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cboProfile_SelectionChanged"/>
         <Button x:Name="btnNewProfile" Content="Neue Konfiguration" HorizontalAlignment="Left" Margin="200,48,0,0" VerticalAlignment="Top" Width="260" Click="btnNewProfile_Click"/>
-        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="9" Margin="22,377,0,0" Stroke="Black" VerticalAlignment="Top" Width="472"/>
-        <Button x:Name="btnSaveProfile" Content="Speichern" HorizontalAlignment="Left" Margin="201,346,0,0" VerticalAlignment="Top" Width="113" Click="btnSaveProfile_Click"/>
-        <Button x:Name="btnDeleteProfile" Content="Löschen" HorizontalAlignment="Left" Margin="345,346,0,0" VerticalAlignment="Top" Width="113" Click="btnDeleteProfile_Click"/>
-        <TabControl HorizontalAlignment="Left" Height="240" Margin="22,89,0,0" VerticalAlignment="Top" Width="473">
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="9" Margin="22,495,0,0" Stroke="Black" VerticalAlignment="Top" Width="472"/>
+        <Button x:Name="btnSaveProfile" Content="Speichern" HorizontalAlignment="Left" Margin="201,464,0,0" VerticalAlignment="Top" Width="113" Click="btnSaveProfile_Click"/>
+        <Button x:Name="btnDeleteProfile" Content="Löschen" HorizontalAlignment="Left" Margin="345,464,0,0" VerticalAlignment="Top" Width="113" Click="btnDeleteProfile_Click"/>
+        <TabControl HorizontalAlignment="Left" Height="349" Margin="22,89,0,0" VerticalAlignment="Top" Width="473">
             <TabItem Header="IX Konfiguration">
                 <Grid Background="#FFE5E5E5">
                     <Label Content="arcPath" HorizontalAlignment="Left" Margin="10,108,0,0" VerticalAlignment="Top"/>
@@ -28,7 +28,25 @@
                 </Grid>
             </TabItem>
             <TabItem Header="OneNote Konfiguration">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <Label Content="notebook" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtNotebook" HorizontalAlignment="Left" Height="23" Margin="138,10,0,0" TextWrapping="Wrap" Text="notebook" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="ignoreTags" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtIgnoreTags" HorizontalAlignment="Left" Height="23" Margin="138,40,0,0" TextWrapping="Wrap" Text="ignoreTags" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="expandedTag" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtExpandedTag" HorizontalAlignment="Left" Height="23" Margin="138,100,0,0" TextWrapping="Wrap" Text="expandedTag" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="importantTag" HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtImportantTag" HorizontalAlignment="Left" Height="23" Margin="138,130,0,0" TextWrapping="Wrap" Text="importantTag" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="criticalTag" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtCriticalTag" HorizontalAlignment="Left" Height="23" Margin="138,160,0,0" TextWrapping="Wrap" Text="criticalTag" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="warningTag" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtWarningTag" HorizontalAlignment="Left" Height="23" Margin="138,190,0,0" TextWrapping="Wrap" Text="warningTag" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="cautionTag" HorizontalAlignment="Left" Margin="10,220,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtCautionTag" HorizontalAlignment="Left" Height="23" Margin="138,220,0,0" TextWrapping="Wrap" Text="cautionTag" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="thumbnailTag" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtThumbnailTag" HorizontalAlignment="Left" Height="23" Margin="138,250,0,0" TextWrapping="Wrap" Text="thumbnailTag" VerticalAlignment="Top" Width="320"/>
+                    <CheckBox x:Name="chkRenderImages" Content="renderImages" HorizontalAlignment="Left" Margin="140,76,0,0" VerticalAlignment="Top"/>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>
