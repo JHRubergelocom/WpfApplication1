@@ -35,11 +35,9 @@
     <Reference Include="CommandLine">
       <HintPath>E:\Csharp\Libs\CommandLine.dll</HintPath>
     </Reference>
-    <Reference Include="EloixClientCS">
-      <HintPath>E:\IndexServer9\EloixClientCS 9.00.018\eloixclientcs\lib\EloixClientCS.dll</HintPath>
-    </Reference>
-    <Reference Include="EloixClientCS.9.0.18.0.Fakes">
-      <HintPath>FakesAssemblies\EloixClientCS.9.0.18.0.Fakes.dll</HintPath>
+    <Reference Include="EloixClientCS, Version=10.0.0.0, Culture=neutral, PublicKeyToken=4b8ef888bdb9ef70, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Indexserver10\EloixClientCS\EloixClientCS.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
