@@ -34,8 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EloixClientCS">
-      <HintPath>E:\IndexServer9\EloixClientCS 9.00.018\eloixclientcs\lib\EloixClientCS.dll</HintPath>
+    <Reference Include="EloixClientCS, Version=9.0.18.0, Culture=neutral, PublicKeyToken=4b8ef888bdb9ef70, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\Indexserver10\EloixClientCS\EloixClientCS.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>E:\Csharp\Libs\HtmlAgilityPack.dll</HintPath>
