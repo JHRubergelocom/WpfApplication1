@@ -1,10 +1,10 @@
 ﻿<Window x:Class="WpfApplication1.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="629" Width="600">
-    <Grid>
+        Title="ELO Businiess Solution Administration" Height="857" Width="528" Closing="mainClosing">
+    <Grid Margin="0,0,0,-62">
         <Button x:Name="btnLoadEloScripte" Content="ELO Scripte herunterladen" HorizontalAlignment="Left" Margin="22,520,0,0" VerticalAlignment="Top" Width="180" Click="btnLoadEloScripte_Click"/>
-        <Button x:Name="btnGenerateOneNotePages" Content="OneNote Seiten erzeugen" HorizontalAlignment="Left" Margin="22,554,0,0" VerticalAlignment="Top" Width="180" Click="btnGenerateOneNotePages_Click"/>
+        <Button x:Name="btnGenerateOneNotePages" Content="OneNote Seiten erzeugen" HorizontalAlignment="Left" Margin="250,520,0,0" VerticalAlignment="Top" Width="180" Click="btnGenerateOneNotePages_Click"/>
         <Label Content="Profil" HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Width="66"/>
         <ComboBox x:Name="cboProfile" HorizontalAlignment="Left" Margin="20,48,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="cboProfile_SelectionChanged"/>
         <Button x:Name="btnNewProfile" Content="Neue Konfiguration" HorizontalAlignment="Left" Margin="200,48,0,0" VerticalAlignment="Top" Width="260" Click="btnNewProfile_Click"/>
@@ -19,12 +19,14 @@
                     <Label Content="pwd" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top"/>
                     <Label Content="user" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                     <Label Content="maskName" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top"/>
+                    <Label Content="package" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="txtUser" HorizontalAlignment="Left" Height="23" Margin="138,10,0,0" TextWrapping="Wrap" Text="user" VerticalAlignment="Top" Width="320"/>
                     <PasswordBox x:Name="txtPwd" HorizontalAlignment="Left" Height="23" Margin="138,44,0,0" VerticalAlignment="Top" Width="320" PasswordChar="*" MaxLength="8"/>
                     <TextBox x:Name="txtIxUrl" HorizontalAlignment="Left" Height="23" Margin="138,78,0,0" TextWrapping="Wrap" Text="ixUrl" VerticalAlignment="Top" Width="320"/>
                     <TextBox x:Name="txtArcPath" HorizontalAlignment="Left" Height="23" Margin="138,108,0,0" TextWrapping="Wrap" Text="arcPath" VerticalAlignment="Top" Width="320"/>
                     <CheckBox x:Name="chkExportReferences" Content="Referenzen exportieren" HorizontalAlignment="Left" Margin="17,146,0,0" VerticalAlignment="Top" Width="199"/>
                     <TextBox x:Name="txtMaskName" HorizontalAlignment="Left" Height="23" Margin="138,170,0,0" TextWrapping="Wrap" Text="maskName" VerticalAlignment="Top" Width="320"/>
+                    <TextBox x:Name="txtPackage" HorizontalAlignment="Left" Height="23" Margin="138,200,0,0" TextWrapping="Wrap" Text="package" VerticalAlignment="Top" Width="320"/>
                 </Grid>
             </TabItem>
             <TabItem Header="OneNote Konfiguration">
@@ -46,8 +48,49 @@
                     <Label Content="thumbnailTag" HorizontalAlignment="Left" Margin="10,250,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="txtThumbnailTag" HorizontalAlignment="Left" Height="23" Margin="138,250,0,0" TextWrapping="Wrap" Text="thumbnailTag" VerticalAlignment="Top" Width="320"/>
                     <CheckBox x:Name="chkRenderImages" Content="renderImages" HorizontalAlignment="Left" Margin="140,76,0,0" VerticalAlignment="Top"/>
+                    <Label Content="lang" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtLang" HorizontalAlignment="Left" Height="23" Margin="138,280,0,0" TextWrapping="Wrap" Text="DE" VerticalAlignment="Top" Width="320"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Cmd Konfiguration" Margin="-2,-2,-2,-1">
+                <Grid Background="#FFE5E5E5" Margin="-1,0,1,0">
+                    <Label Content="gitpullallCmd" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtGitPullAllCmd" HorizontalAlignment="Left" Height="23" Margin="138,10,0,0" TextWrapping="Wrap" Text="gitpullallCmd" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="gitpullallDir" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtGitPullAllDir" HorizontalAlignment="Left" Height="23" Margin="138,34,0,0" TextWrapping="Wrap" Text="gitpullallDir" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="elopullunittestCmd" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtEloPullUnittestCmd" HorizontalAlignment="Left" Height="23" Margin="138,66,0,0" TextWrapping="Wrap" Text="elopullunittestCmd" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="elopullunittestArgs" HorizontalAlignment="Left" Margin="10,91,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtEloPullUnittestArgs" HorizontalAlignment="Left" Height="23" Margin="138,91,0,0" TextWrapping="Wrap" Text="elopullunittestArgs" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="elopullunittestDir" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtEloPullUnittestDir" HorizontalAlignment="Left" Height="23" Margin="138,116,0,0" TextWrapping="Wrap" Text="elopullunittestDir" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="eloprepareDir" HorizontalAlignment="Left" Margin="10,284,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtEloPrepareDir" HorizontalAlignment="Left" Height="23" Margin="138,284,0,0" TextWrapping="Wrap" Text="eloprepareDir" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="eloprepareArgs" HorizontalAlignment="Left" Margin="10,258,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtEloPrepareArgs" HorizontalAlignment="Left" Height="23" Margin="138,258,0,0" TextWrapping="Wrap" Text="eloprepareArgs" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="eloprepareCmd" HorizontalAlignment="Left" Margin="10,232,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtEloPrepareCmd" HorizontalAlignment="Left" Height="23" Margin="138,232,0,0" TextWrapping="Wrap" Text="eloprepareCmd" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="elopullpackageCmd" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtEloPullPackageCmd" HorizontalAlignment="Left" Height="23" Margin="138,145,0,0" TextWrapping="Wrap" Text="elopullpackageCmd" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="elopullpackageArgs" HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtEloPullPackageArgs" HorizontalAlignment="Left" Height="23" Margin="138,170,0,0" TextWrapping="Wrap" Text="elopullpackageArgs" VerticalAlignment="Top" Width="320"/>
+                    <Label Content="elopullpackageDir" HorizontalAlignment="Left" Margin="10,195,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtEloPullPackageDir" HorizontalAlignment="Left" Height="23" Margin="138,195,0,0" TextWrapping="Wrap" Text="elopullpackageDir" VerticalAlignment="Top" Width="320"/>
                 </Grid>
             </TabItem>
         </TabControl>
+        <Button x:Name="btnShowUnittests" Content="Unittests anzeigen" HorizontalAlignment="Left" Margin="23,575,0,0" VerticalAlignment="Top" Width="180" Click="btnShowUnittests_Click"/>
+        <Button x:Name="btnWebclient" Content="Webclient" HorizontalAlignment="Left" Margin="18,681,0,0" VerticalAlignment="Top" Width="180" Click="btnWebclient_Click"/>
+        <Button x:Name="btnAdminConsole" Content="AdminConsole" HorizontalAlignment="Left" Margin="20,642,0,0" VerticalAlignment="Top" Width="180" Click="btnAdminConsole_Click"/>
+        <Button x:Name="btnMatchUnittest" Content="Abgleich Unittest" HorizontalAlignment="Left" Margin="251,576,0,0" VerticalAlignment="Top" Width="180" Click="btnUnittest_Click"/>
+        <Button x:Name="btnAppManager" Content="AppManager" HorizontalAlignment="Left" Margin="251,642,0,0" VerticalAlignment="Top" Width="180" Click="btnAppManager_Click" RenderTransformOrigin="0.978,1.045"/>
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="9" Margin="23,556,0,0" Stroke="Black" VerticalAlignment="Top" Width="472"/>
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="9" Margin="21,618,0,0" Stroke="Black" VerticalAlignment="Top" Width="472"/>
+        <Button x:Name="btnKnowledgeBoard" Content="KnowledgeBoard" HorizontalAlignment="Left" Margin="251,681,0,0" VerticalAlignment="Top" Width="180" Click="btnKnowledgeBoard_Click" RenderTransformOrigin="0.978,1.045"/>
+        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="9" Margin="19,713,0,0" Stroke="Black" VerticalAlignment="Top" Width="472"/>
+        <Button x:Name="btnGitPullAll" Content="GitPullAll" HorizontalAlignment="Left" Margin="19,739,0,0" VerticalAlignment="Top" Width="180" Click="btnGitPullAll_Click"/>
+        <Button x:Name="btnEloPullUnittest" Content="EloPullUnittest" HorizontalAlignment="Left" Margin="249,739,0,0" VerticalAlignment="Top" Width="180" Click="btnEloPullUnittest_Click"/>
+        <Button x:Name="btnEloPrepare" Content="EloPrepare" HorizontalAlignment="Left" Margin="19,771,0,0" VerticalAlignment="Top" Width="180" Click="btnEloPrepare_Click"/>
+        <Button x:Name="btnEloPullPackage" Content="EloPullPackage" HorizontalAlignment="Left" Margin="249,771,0,0" VerticalAlignment="Top" Width="180" Click="btnEloPullPackage_Click"/>
     </Grid>
 </Window>

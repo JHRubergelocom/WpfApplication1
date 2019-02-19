@@ -15,6 +15,7 @@ namespace WpfApplication1
         private string _pwd;
         private bool _exportReferences;
         private string _maskName;
+        private string _package;
 
         public string arcPath
         {
@@ -84,7 +85,19 @@ namespace WpfApplication1
             }
         }
 
-        public KonfigurationIx(string arcPath, string ixUrl, string user, string pwd, bool exportReferences, string maskName)
+        public string package
+        {
+            get
+            {
+                return _package;
+            }
+            set
+            {
+                _package = value;
+            }
+        }
+
+        public KonfigurationIx(string arcPath, string ixUrl, string user, string pwd, bool exportReferences, string maskName, string package)
         {
             this._arcPath = arcPath;
             this._ixUrl = ixUrl;
@@ -92,6 +105,7 @@ namespace WpfApplication1
             this._pwd = pwd;
             this._exportReferences = exportReferences;
             this._maskName = maskName;
+            this._package = package;
         }
 
         public KonfigurationIx()
@@ -102,6 +116,7 @@ namespace WpfApplication1
             this._pwd = "";
             this._exportReferences = false;
             this._maskName = "";
+            this._package = "";
         }
 
         public KonfigurationIx(XmlNode ixConfNode)
@@ -112,6 +127,7 @@ namespace WpfApplication1
             this._pwd = "";
             this._exportReferences = false;
             this._maskName = "";
+            this._package = "";
 
             foreach (XmlNode subNode in ixConfNode.ChildNodes)
             {
@@ -139,6 +155,10 @@ namespace WpfApplication1
 
                     case "maskName":
                         _maskName = subNode.InnerText;
+                        break;
+
+                    case "package":
+                        _package = subNode.InnerText;
                         break;
                 }
             }
@@ -173,6 +193,9 @@ namespace WpfApplication1
             ixConfElem.AppendChild(nodeElem);
 
             nodeElem = CreateXMLNodeValue(xmlDoc, "maskName", maskName);
+            ixConfElem.AppendChild(nodeElem);
+
+            nodeElem = CreateXMLNodeValue(xmlDoc, "package", package);
             ixConfElem.AppendChild(nodeElem);
 
             return ixConfElem;

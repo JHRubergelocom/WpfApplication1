@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using EloixClient.IndexServer;
 using System.IO;
 using System.Diagnostics;
+using System.Windows;
 
 namespace WpfApplication1
 {
     class ExportElo
     {
-        public static void FindChildren(IXConnection conn, string arcPath, string winPath, bool exportReferences, string maskName)
+       static void FindChildren(IXConnection conn, string arcPath, string winPath, bool exportReferences, string maskName)
         {
 
             FindInfo fi = null;
@@ -91,7 +92,12 @@ namespace WpfApplication1
                                     }
                                     catch (System.IO.PathTooLongException e)
                                     {
-                                        Debug.WriteLine("Exception: " + e.Message + " " + subFolderPath);
+                                        Debug.WriteLine("PathTooLongException: " + e.Message + " " + subFolderPath);
+                                        return;
+                                    }
+                                    catch (System.ArgumentException e)
+                                    {
+                                        Debug.WriteLine("ArgumentException: " + e.Message + " " + subFolderPath);
                                         return;
                                     }
                                 }
@@ -159,7 +165,7 @@ namespace WpfApplication1
             }
         }
 
-        public static void StartExportElo(string profilename, KonfigurationIx ixConf)
+       public static void StartExportElo(string profilename, KonfigurationIx ixConf)
         {
             try
             {
@@ -180,6 +186,7 @@ namespace WpfApplication1
             {
                 if (e.Source != null)
                 {
+                    MessageBox.Show("Falsche Verbindungsdaten zu ELO \n" + e.Message, "ELO Connection", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                     Debug.WriteLine("byps.BException message: {0}", e.Message);
                 }
             }
@@ -187,6 +194,7 @@ namespace WpfApplication1
             {
                 if (e.Source != null)
                 {
+                    MessageBox.Show("Indexserver-Verbindung ungültig \n User: "  + ixConf.user + "\n IxUrl: " + ixConf.ixUrl, "ELO Connection", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                     Debug.WriteLine("System.Net.WebException message: {0}", e.Message);
                 }
             }

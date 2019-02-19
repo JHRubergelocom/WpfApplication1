@@ -30,6 +30,16 @@ namespace WpfApplication1
         {
             InitializeComponent();
             LoadKonfigurations();
+
+            if (Properties.Settings.Default.ActualConfiguration != "")
+            {
+                cboProfile.SelectedValue = Properties.Settings.Default.ActualConfiguration;
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    SetValues(profiles[actvalue]);
+                }
+            }
         }
 
         public SortedDictionary<string, KonfigurationParameter> GetProfiles()
@@ -76,9 +86,14 @@ namespace WpfApplication1
             if (dialog.ShowDialog() == true)
             {
                 // MessageBox.Show("You select Profilename: " + dialog.txtProfileName);
-                KonfigurationParameter newprofile = new KonfigurationParameter(new KonfigurationIx("arcPath", "ixUrl", "user", "pwd", false, "maskName"), 
-                                                                               new KonfigurationOneNote("notebook", "ignoreTags", true, 
-                                                                               new KonfigurationOneNoteTags("expandedTag", "importantTag", "criticalTag", "warningTag", "cautionTag", "thumbnailTag")));
+                KonfigurationParameter newprofile = new KonfigurationParameter(new KonfigurationIx("arcPath", "ixUrl", "user", "pwd", false, "maskName", "package"), 
+                                                                               new KonfigurationOneNote("notebook", "ignoreTags", true, "lang",
+                                                                               new KonfigurationOneNoteTags("expandedTag", "importantTag", "criticalTag", "warningTag", "cautionTag", "thumbnailTag")),
+                                                                               new KonfigurationCmd("gitpullall.cmd", "", "E:\\Git\\solutions"),
+                                                                               new KonfigurationCmd("powershell.exe", "E:\\Git\\solutions\\learning.git\\elopullunittests.ps1", "E:\\Git\\solutions\\learning.git"),
+                                                                               new KonfigurationCmd("powershell.exe", "E:\\Git\\solutions\\learning.git\\elopreparelearning.ps1", "E:\\Git\\solutions\\learning.git"),
+                                                                               new KonfigurationCmd("powershell.exe", "E:\\Git\\solutions\\learning.git\\elopulllearning.ps1", "E:\\Git\\solutions\\learning.git")
+                                                                               );
                 string newprofilename = dialog.txtProfileName.Text;
                 if (!profiles.ContainsKey(newprofilename))
                 {
@@ -182,10 +197,12 @@ namespace WpfApplication1
             txtPwd.Password = profile.ixConf.pwd;
             chkExportReferences.IsChecked = profile.ixConf.exportReferences;
             txtMaskName.Text = profile.ixConf.maskName;
+            txtPackage.Text = profile.ixConf.package;
 
             txtNotebook.Text = profile.onenoteConf.notebook;
             txtIgnoreTags.Text = profile.onenoteConf.ignoreTags;
             chkRenderImages.IsChecked = profile.onenoteConf.renderImages;
+            txtLang.Text = profile.onenoteConf.lang;
 
             txtExpandedTag.Text = profile.onenoteConf.onenoteTags.expandedTag;
             txtImportantTag.Text = profile.onenoteConf.onenoteTags.importantTag;
@@ -193,13 +210,34 @@ namespace WpfApplication1
             txtWarningTag.Text = profile.onenoteConf.onenoteTags.warningTag;
             txtCautionTag.Text = profile.onenoteConf.onenoteTags.cautionTag;
             txtThumbnailTag.Text = profile.onenoteConf.onenoteTags.thumbnailTag;
+
+            txtGitPullAllCmd.Text = profile.cmdGitPullAllConf.cmdCommand;
+            txtGitPullAllDir.Text = profile.cmdGitPullAllConf.cmdWorkingDir;
+
+            txtEloPullUnittestCmd.Text = profile.cmdEloPullUnittestConf.cmdCommand;
+            txtEloPullUnittestArgs.Text = profile.cmdEloPullUnittestConf.cmdArguments;
+            txtEloPullUnittestDir.Text = profile.cmdEloPullUnittestConf.cmdWorkingDir;
+
+            txtEloPrepareCmd.Text = profile.cmdEloPrepareConf.cmdCommand;
+            txtEloPrepareArgs.Text = profile.cmdEloPrepareConf.cmdArguments;
+            txtEloPrepareDir.Text = profile.cmdEloPrepareConf.cmdWorkingDir;
+
+            txtEloPullPackageCmd.Text = profile.cmdEloPullPackageConf.cmdCommand;
+            txtEloPullPackageArgs.Text = profile.cmdEloPullPackageConf.cmdArguments;
+            txtEloPullPackageDir.Text = profile.cmdEloPullPackageConf.cmdWorkingDir;
+
         }
 
         private KonfigurationParameter GetValues()
         {
-            KonfigurationParameter profile = new KonfigurationParameter(new KonfigurationIx(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Password, (bool)chkExportReferences.IsChecked, txtMaskName.Text),
-                                                                        new KonfigurationOneNote(txtNotebook.Text, txtIgnoreTags.Text, (bool)chkRenderImages.IsChecked,
-                                                                        new KonfigurationOneNoteTags(txtExpandedTag.Text, txtImportantTag.Text, txtCriticalTag.Text, txtWarningTag.Text, txtCautionTag.Text, txtThumbnailTag.Text)));
+            KonfigurationParameter profile = new KonfigurationParameter(new KonfigurationIx(txtArcPath.Text, txtIxUrl.Text, txtUser.Text, txtPwd.Password, (bool)chkExportReferences.IsChecked, txtMaskName.Text, txtPackage.Text),
+                                                                        new KonfigurationOneNote(txtNotebook.Text, txtIgnoreTags.Text, (bool)chkRenderImages.IsChecked, txtLang.Text,
+                                                                        new KonfigurationOneNoteTags(txtExpandedTag.Text, txtImportantTag.Text, txtCriticalTag.Text, txtWarningTag.Text, txtCautionTag.Text, txtThumbnailTag.Text)),
+                                                                        new KonfigurationCmd(txtGitPullAllCmd.Text, "", txtGitPullAllDir.Text),
+                                                                        new KonfigurationCmd(txtEloPullUnittestCmd.Text, txtEloPullUnittestArgs.Text, txtEloPullUnittestDir.Text),
+                                                                        new KonfigurationCmd(txtEloPrepareCmd.Text, txtEloPrepareArgs.Text, txtEloPrepareDir.Text),
+                                                                        new KonfigurationCmd(txtEloPullPackageCmd.Text, txtEloPullPackageArgs.Text, txtEloPullPackageDir.Text)
+                                                                        );
             return profile;
         }
 
@@ -212,10 +250,12 @@ namespace WpfApplication1
             txtUser.IsEnabled = status;
             chkExportReferences.IsEnabled = status;
             txtMaskName.IsEnabled = status;
+            txtPackage.IsEnabled = status;
 
             txtNotebook.IsEnabled = status;
             txtIgnoreTags.IsEnabled = status;
             chkRenderImages.IsEnabled = status;
+            txtLang.IsEnabled = status;
 
             txtExpandedTag.IsEnabled = status;
             txtImportantTag.IsEnabled = status;
@@ -228,6 +268,21 @@ namespace WpfApplication1
             btnSaveProfile.IsEnabled = status;
             btnLoadEloScripte.IsEnabled = status;
             btnGenerateOneNotePages.IsEnabled = status;
+
+            txtGitPullAllCmd.IsEnabled = status;
+            txtGitPullAllDir.IsEnabled = status;
+
+            txtEloPullUnittestCmd.IsEnabled = status;
+            txtEloPullUnittestArgs.IsEnabled = status;
+            txtEloPullUnittestDir.IsEnabled = status;
+
+            txtEloPrepareCmd.IsEnabled = status;
+            txtEloPrepareArgs.IsEnabled = status;
+            txtEloPrepareDir.IsEnabled = status;
+
+            txtEloPullPackageCmd.IsEnabled = status;
+            txtEloPullPackageArgs.IsEnabled = status;
+            txtEloPullPackageDir.IsEnabled = status;
 
         }
 
@@ -317,6 +372,138 @@ namespace WpfApplication1
                 SaveKonfigurations();
                 InitKonfigurations();
                 cboProfile.SelectedIndex = actindex;
+            }
+
+        }
+
+        private void btnShowUnittests_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    Unittests.ShowUnittestsApp(profiles[actvalue].ixConf);
+                }
+            }
+        }
+
+        private void btnWebclient_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    Webclient.StartWebclient(profiles[actvalue].ixConf);
+                }
+            }
+
+        }
+
+        private void btnAdminConsole_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    AdminConsole.StartAdminConsole(profiles[actvalue].ixConf);
+                }
+            }
+        }
+
+        private void mainClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            string actvalue = cboProfile.SelectedValue.ToString();
+            Properties.Settings.Default.ActualConfiguration = actvalue;
+            Properties.Settings.Default.Save();
+        }
+
+        private void btnUnittest_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    Unittests.ShowReportMatchUnittest(profiles[actvalue].ixConf);
+                }
+            }
+
+        }
+
+        private void btnAppManager_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    AppManager.StartAppManager(profiles[actvalue].ixConf);
+                }
+            }
+
+        }
+
+        private void btnKnowledgeBoard_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    KnowledgeBoard.ShowKnowledgeBoard(profiles[actvalue].ixConf);
+                }
+            }
+        }
+
+        private void btnGitPullAll_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    Cmd.ExecuteCmd(profiles[actvalue].cmdGitPullAllConf);
+                }
+            }
+        }
+
+        private void btnEloPullUnittest_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    Cmd.ExecuteCmd(profiles[actvalue].cmdEloPullUnittestConf);
+                }
+            }
+        }
+
+        private void btnEloPrepare_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    Cmd.ExecuteCmd(profiles[actvalue].cmdEloPrepareConf);
+                }
+            }
+
+        }
+
+        private void btnEloPullPackage_Click(object sender, RoutedEventArgs e)
+        {
+            if (profiles.Count > 0)
+            {
+                string actvalue = cboProfile.SelectedValue.ToString();
+                if (profiles.ContainsKey(actvalue))
+                {
+                    Cmd.ExecuteCmd(profiles[actvalue].cmdEloPullPackageConf);
+                }
             }
 
         }
